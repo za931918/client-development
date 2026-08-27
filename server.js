@@ -11,11 +11,10 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 透過 Brevo API (Port 443 HTTPS) 發送郵件，繞過 Render 封鎖 SMTP 埠的問題
+// 透過 Brevo API (Port 443 HTTPS) 發送郵件
 function sendViaBrevoApi(apiKey, senderEmail, senderName, recipientEmail, recipientName, subject, htmlContent, attachments) {
     return new Promise((resolve, reject) => {
         const formattedAttachments = (attachments || []).map(att => {
-            // 處理 Base64 資料格式
             const base64Content = att.data.includes(',') ? att.data.split(',')[1] : att.data;
             return {
                 content: base64Content,
@@ -24,7 +23,7 @@ function sendViaBrevoApi(apiKey, senderEmail, senderName, recipientEmail, recipi
         });
 
         const payload = {
-            sender: { name: senderName || '業務開發團隊', email: senderEmail },
+            sender: { name: senderName || 'CASA CYCLES 業務團隊', email: senderEmail },
             to: [{ email: recipientEmail, name: recipientName || '夥伴' }],
             subject: subject,
             htmlContent: htmlContent
@@ -107,84 +106,86 @@ app.post('/api/send-emails', async (req, res) => {
         return res.json({ success: true, results, mode: 'mock' });
     }
 
-    // 真實發送模式 (優先使用 Brevo HTTP API 避開 Render 埠限制，若失敗則嘗試 SMTP)
+    // 真實發送模式 (支援 Gmail SMTP 或 Brevo API)
     const config = smtpConfig || {};
+    const host = (config.host || '').trim().toLowerCase();
+    const port = Number(config.port) || (host.includes('gmail') ? 465 : 587);
     const smtpUser = (config.user && config.user.trim() !== '') ? config.user.trim() : process.env.SMTP_USER;
     const smtpPass = (config.pass && config.pass.trim() !== '') ? config.pass.trim() : process.env.SMTP_PASS;
-    const senderName = (config.senderName && config.senderName.trim() !== '') ? config.senderName.trim() : '業務開發團隊';
+    const senderName = (config.senderName && config.senderName.trim() !== '') ? config.senderName.trim() : 'CASA CYCLES 業務團隊';
 
     if (!smtpUser || !smtpPass) {
-        return res.status(400).json({ success: false, message: '請填寫寄件者 Email 與 Brevo API Key（或於 Render 設定環境變數 SMTP_USER 與 SMTP_PASS）' });
+        return res.status(400).json({ success: false, message: '請填寫完整的 SMTP 帳號與密碼' });
     }
 
     try {
-        for (const recipient of recipients) {
-            const companyName = recipient.company || '某公司';
-            const contactName = recipient.name || '夥伴';
-            const email = recipient.email;
+        // 如果是 Gmail 或使用 Port 465，使用 Nodemailer SMTP 發送
+        if (host.includes('gmail') || port === 465 || host === 'smtp.gmail.com') {
+            const transporter = nodemailer.createTransport({
+                host: host || 'smtp.gmail.com',
+                port: port,
+                secure: port === 465,
+                auth: { user: smtpUser, pass: smtpPass },
+                tls: { rejectUnauthorized: false }
+            });
 
-            const personalizedSubject = subjectTemplate
-                .replace(/{{companyName}}/g, companyName)
-                .replace(/{{contactName}}/g, contactName);
-            
-            const personalizedBody = bodyTemplate
-                .replace(/{{companyName}}/g, companyName)
-                .replace(/{{contactName}}/g, contactName);
+            await transporter.verify();
 
-            const htmlContent = personalizedBody.replace(/\n/g, '<br>');
+            for (const recipient of recipients) {
+                const companyName = recipient.company || '某公司';
+                const contactName = recipient.name || '夥伴';
+                const email = recipient.email;
 
-            try {
-                // 優先嘗試使用 Brevo HTTP API (Port 443 - 絕對不會被 Render 封鎖)
-                await sendViaBrevoApi(smtpPass, smtpUser, senderName, email, contactName, personalizedSubject, htmlContent, attachments);
+                const personalizedSubject = subjectTemplate
+                    .replace(/{{companyName}}/g, companyName)
+                    .replace(/{{contactName}}/g, contactName);
+                
+                const personalizedBody = bodyTemplate
+                    .replace(/{{companyName}}/g, companyName)
+                    .replace(/{{contactName}}/g, contactName);
 
-                results.push({
-                    email,
-                    company: companyName,
-                    name: contactName,
-                    status: 'success',
-                    message: '發送成功 (API)'
-                });
-            } catch (apiErr) {
-                // 若 API 失敗，嘗試使用傳統 SMTP 備用
                 try {
-                    const port = Number(config.port) || 587;
-                    const transporter = nodemailer.createTransport({
-                        host: config.host || 'smtp-relay.brevo.com',
-                        port: port,
-                        secure: port === 465,
-                        auth: { user: smtpUser, pass: smtpPass },
-                        tls: { rejectUnauthorized: false }
-                    });
-
                     await transporter.sendMail({
                         from: `"${senderName}" <${smtpUser}>`,
                         to: email,
                         subject: personalizedSubject,
                         text: personalizedBody,
-                        html: htmlContent,
+                        html: personalizedBody.replace(/\n/g, '<br>'),
                         attachments: (attachments || []).map(att => ({ filename: att.filename, path: att.data }))
                     });
 
-                    results.push({
-                        email,
-                        company: companyName,
-                        name: contactName,
-                        status: 'success',
-                        message: '發送成功 (SMTP)'
-                    });
-                } catch (smtpErr) {
-                    results.push({
-                        email,
-                        company: companyName,
-                        name: contactName,
-                        status: 'error',
-                        message: `API 錯誤: ${apiErr.message} | SMTP 錯誤: ${smtpErr.message}`
-                    });
+                    results.push({ email, company: companyName, name: contactName, status: 'success', message: '發送成功 (Gmail SMTP)' });
+                } catch (err) {
+                    results.push({ email, company: companyName, name: contactName, status: 'error', message: err.message });
                 }
             }
-        }
+            return res.json({ success: true, results, mode: 'gmail-smtp' });
+        } else {
+            // Brevo API 模式
+            for (const recipient of recipients) {
+                const companyName = recipient.company || '某公司';
+                const contactName = recipient.name || '夥伴';
+                const email = recipient.email;
 
-        return res.json({ success: true, results, mode: 'brevo-api' });
+                const personalizedSubject = subjectTemplate
+                    .replace(/{{companyName}}/g, companyName)
+                    .replace(/{{contactName}}/g, contactName);
+                
+                const personalizedBody = bodyTemplate
+                    .replace(/{{companyName}}/g, companyName)
+                    .replace(/{{contactName}}/g, contactName);
+
+                const htmlContent = personalizedBody.replace(/\n/g, '<br>');
+
+                try {
+                    await sendViaBrevoApi(smtpPass, smtpUser, senderName, email, contactName, personalizedSubject, htmlContent, attachments);
+                    results.push({ email, company: companyName, name: contactName, status: 'success', message: '發送成功 (Brevo API)' });
+                } catch (apiErr) {
+                    results.push({ email, company: companyName, name: contactName, status: 'error', message: apiErr.message });
+                }
+            }
+            return res.json({ success: true, results, mode: 'brevo-api' });
+        }
     } catch (error) {
         return res.status(500).json({ success: false, message: `發送失敗: ${error.message}` });
     }
