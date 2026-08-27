@@ -60,14 +60,24 @@ app.post('/api/send-emails', async (req, res) => {
 
     // 真實發送模式 (SMTP)
     try {
-        const port = Number(smtpConfig.port) || 465;
+        const config = smtpConfig || {};
+        const port = Number(config.port) || 587;
+        const smtpUser = config.user || process.env.SMTP_USER;
+        const smtpPass = config.pass || process.env.SMTP_PASS;
+        const smtpHost = config.host || 'smtp-relay.brevo.com';
+        const senderName = config.senderName || '業務開發團隊';
+
+        if (!smtpUser || !smtpPass) {
+            return res.status(400).json({ success: false, message: '請填寫 SMTP 帳號與密碼（或於 Render 設定環境變數）' });
+        }
+
         const transporter = nodemailer.createTransport({
-            host: smtpConfig.host || 'smtp.gmail.com',
+            host: smtpHost,
             port: port,
             secure: port === 465, // true for 465 (SSL), false for 587 (TLS)
             auth: {
-                user: smtpConfig.user,
-                pass: smtpConfig.pass
+                user: smtpUser,
+                pass: smtpPass
             },
             tls: {
                 rejectUnauthorized: false
@@ -92,7 +102,7 @@ app.post('/api/send-emails', async (req, res) => {
 
             try {
                 await transporter.sendMail({
-                    from: `"${smtpConfig.senderName || '業務開發團隊'}" <${smtpConfig.user}>`,
+                    from: `"${senderName}" <${smtpUser}>`,
                     to: email,
                     subject: personalizedSubject,
                     text: personalizedBody,
