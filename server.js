@@ -60,13 +60,17 @@ app.post('/api/send-emails', async (req, res) => {
 
     // 真實發送模式 (SMTP)
     try {
+        const port = Number(smtpConfig.port) || 465;
         const transporter = nodemailer.createTransport({
-            host: smtpConfig.host,
-            port: Number(smtpConfig.port),
-            secure: Number(smtpConfig.port) === 465, // true for 465, false for other ports
+            host: smtpConfig.host || 'smtp.gmail.com',
+            port: port,
+            secure: port === 465, // true for 465 (SSL), false for 587 (TLS)
             auth: {
                 user: smtpConfig.user,
                 pass: smtpConfig.pass
+            },
+            tls: {
+                rejectUnauthorized: false
             }
         });
 
@@ -116,7 +120,7 @@ app.post('/api/send-emails', async (req, res) => {
 
         return res.json({ success: true, results, mode: 'smtp' });
     } catch (error) {
-        return res.status(500).json({ success: false, message: `SMTP 連線失敗: ${error.message}` });
+        return res.status(500).json({ success: false, message: `SMTP 連線或驗證失敗: ${error.message}` });
     }
 });
 
