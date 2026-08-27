@@ -35,7 +35,7 @@
    - 切換至「真實 SMTP 模式」。
    - 填入您的 Gmail 相關設定：
      * SMTP 主機 (Host): smtp.gmail.com
-     * 連接埠 (Port): 465
+     * 連接埠 (Port): 465 或587
      * 寄件者 Email: 您的個人 Gmail 帳號 (例如 your-email@gmail.com)
      * 應用程式密碼: 您的 16 位數 Gmail 應用程式密碼
    - 輸入收件人名單、編輯信件內容與附件後，點擊「立即發送開發信」即可成功發送！

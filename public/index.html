@@ -3,34 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI 智能開發信群發系統</title>
+    <title>CASA Cycles - 智能開發信群發系統</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans TC', sans-serif; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #121212; color: #e2e8f0; }
+        .font-mono-brand { font-family: 'Montserrat', sans-serif; }
+        .casa-gradient { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); }
+        .accent-gold { color: #d4af37; }
+        .bg-gold { background-color: #d4af37; }
+        .border-gold { border-color: #d4af37; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col" x-data="emailApp()">
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-black" x-data="emailApp()">
 
-    <!-- 頂部導覽列 -->
-    <header class="bg-indigo-600 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-                <h1 class="text-xl font-bold tracking-wide">B2B 開發信智能群發系統</h1>
+    <!-- 頂部導覽列 (Casa Cycles 碳纖維工業風) -->
+    <header class="bg-zinc-900 border-b border-zinc-800 text-white shadow-xl relative overflow-hidden">
+        <!-- 背景自行車齒輪浮水印裝飾 -->
+        <div class="absolute right-[-20px] top-[-30px] opacity-5 pointer-events-none">
+            <svg class="w-64 h-64 text-amber-400 animate-spin-slow" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+                <path fill-rule="evenodd" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" clip-rule="evenodd"/>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center relative z-10">
+            <div class="flex items-center space-x-4">
+                <!-- 自行車零件徽章圖示 (齒輪與輪組美學) -->
+                <div class="w-10 h-10 rounded-lg bg-zinc-800 border border-amber-500/40 flex items-center justify-center text-amber-400 shadow-inner">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3" stroke-width="2"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wider font-mono-brand text-white flex items-center space-x-2">
+                        <span>CASA CYCLES</span>
+                        <span class="text-xs uppercase px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/30">B2B Outreach</span>
+                    </h1>
+                    <p class="text-xs text-zinc-400">高階自行車零件與碳纖維科技 ‧ 智慧開發信群發系統</p>
+                </div>
             </div>
             <div class="flex items-center space-x-4">
-                <span class="text-sm bg-indigo-700 px-3 py-1 rounded-full flex items-center">
-                    <span class="w-2 h-2 rounded-full mr-2" :class="isMock ? 'bg-amber-400' : 'bg-emerald-400'"></span>
-                    <span x-text="isMock ? '模擬測試模式' : '真實 SMTP 模式'"></span>
+                <span class="text-xs bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-full flex items-center text-zinc-300">
+                    <span class="w-2 h-2 rounded-full mr-2 shadow-sm" :class="isMock ? 'bg-amber-400' : 'bg-emerald-400'"></span>
+                    <span x-text="isMock ? '模擬測試模式' : 'Brevo 雲端發信模式'"></span>
                 </span>
-                <button @click="isMock = !isMock" class="text-xs bg-indigo-500 hover:bg-indigo-400 px-3 py-1.5 rounded transition">
+                <button @click="isMock = !isMock" class="text-xs bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-amber-500/30 px-3 py-1.5 rounded transition font-medium">
                     切換模式
                 </button>
             </div>
@@ -38,42 +61,44 @@
     </header>
 
     <!-- 主要內容區 -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+    <main class="flex-1 max-w-7xl w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         <!-- 左側：客戶名單與設定 (5欄) -->
         <div class="lg:col-span-5 space-y-6">
             
             <!-- 1. 客戶名單輸入區 -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                    1. 客戶名單管理
+            <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl pointer-events-none"></div>
+                
+                <h2 class="text-base font-bold text-white mb-4 flex items-center uppercase tracking-wider font-mono-brand">
+                    <svg class="w-5 h-5 mr-2 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    1. 經銷商與客戶名單
                 </h2>
 
                 <!-- 單筆新增表單 -->
-                <form @submit.prevent="addRecipient" class="space-y-3 mb-6 bg-slate-50 p-4 rounded-lg border border-slate-100">
+                <form @submit.prevent="addRecipient" class="space-y-3 mb-6 bg-zinc-950 p-4 rounded-lg border border-zinc-800">
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">公司名稱 *</label>
-                            <input type="text" x-model="newRecipient.company" placeholder="例如: 台灣台積電" required
-                                class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <label class="block text-xs font-medium text-zinc-400 mb-1">公司/車店名稱 *</label>
+                            <input type="text" x-model="newRecipient.company" placeholder="例如: 捷安特車業" required
+                                class="w-full px-3 py-2 text-sm bg-zinc-900 border border-zinc-700 text-white rounded-md focus:ring-2 focus:ring-amber-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">聯絡人姓名</label>
-                            <input type="text" x-model="newRecipient.name" placeholder="例如: 張經理"
-                                class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <label class="block text-xs font-medium text-zinc-400 mb-1">聯絡人姓名</label>
+                            <input type="text" x-model="newRecipient.name" placeholder="例如: 林經理"
+                                class="w-full px-3 py-2 text-sm bg-zinc-900 border border-zinc-700 text-white rounded-md focus:ring-2 focus:ring-amber-500 focus:outline-none">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">電子郵件 (Email) *</label>
-                        <input type="email" x-model="newRecipient.email" placeholder="e.g. manager@tsmc.com" required
-                            class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <label class="block text-xs font-medium text-zinc-400 mb-1">電子郵件 (Email) *</label>
+                        <input type="email" x-model="newRecipient.email" placeholder="e.g. partner@giant.com.tw" required
+                            class="w-full px-3 py-2 text-sm bg-zinc-900 border border-zinc-700 text-white rounded-md focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     </div>
                     <div class="flex justify-between items-center pt-1">
-                        <button type="button" @click="loadSampleData" class="text-xs text-indigo-600 hover:underline">
-                            + 載入範例名單
+                        <button type="button" @click="loadSampleData" class="text-xs text-amber-400 hover:underline flex items-center space-x-1">
+                            <span>+ 載入單車通路範例</span>
                         </button>
-                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium px-4 py-2 rounded-md transition">
+                        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-black font-semibold text-xs px-4 py-2 rounded-md transition shadow-md">
                             加入名單
                         </button>
                     </div>
@@ -82,27 +107,30 @@
                 <!-- 名單預覽列表 -->
                 <div>
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">
-                            已輸入名單 (<span x-text="recipients.length"></span>)
+                        <span class="text-xs font-bold text-zinc-400 uppercase tracking-wider font-mono-brand">
+                            已輸入名單 (<span class="text-amber-400" x-text="recipients.length"></span>)
                         </span>
-                        <button x-show="recipients.length > 0" @click="recipients = []" class="text-xs text-red-500 hover:underline">
+                        <button x-show="recipients.length > 0" @click="recipients = []" class="text-xs text-red-400 hover:underline">
                             清空全部
                         </button>
                     </div>
 
-                    <div class="max-h-64 overflow-y-auto border border-slate-200 rounded-lg divide-y divide-slate-100">
+                    <div class="max-h-64 overflow-y-auto border border-zinc-800 rounded-lg divide-y divide-zinc-800 bg-zinc-950">
                         <template x-if="recipients.length === 0">
-                            <div class="p-6 text-center text-slate-400 text-sm">
+                            <div class="p-6 text-center text-zinc-500 text-sm">
                                 尚無客戶名單，請於上方新增或載入範例
                             </div>
                         </template>
                         <template x-for="(item, index) in recipients" :key="index">
-                            <div class="p-3 flex items-center justify-between hover:bg-slate-50 text-sm">
+                            <div class="p-3 flex items-center justify-between hover:bg-zinc-900 text-sm transition">
                                 <div>
-                                    <div class="font-medium text-slate-900" x-text="item.company"></div>
-                                    <div class="text-xs text-slate-500"><span x-text="item.name || '未填'"></span> &lt;<span x-text="item.email"></span>&gt;</div>
+                                    <div class="font-medium text-white flex items-center space-x-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                                        <span x-text="item.company"></span>
+                                    </div>
+                                    <div class="text-xs text-zinc-400 pl-3.5"><span x-text="item.name || '未填'"></span> &lt;<span x-text="item.email"></span>&gt;</div>
                                 </div>
-                                <button @click="removeRecipient(index)" class="text-slate-400 hover:text-red-500 p-1">
+                                <button @click="removeRecipient(index)" class="text-zinc-500 hover:text-red-400 p-1 transition">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 </button>
                             </div>
@@ -111,35 +139,23 @@
                 </div>
             </div>
 
-            <!-- 2. SMTP 設定 (若非模擬模式) -->
-            <div x-show="!isMock" class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                    SMTP 發信伺服器設定
+            <!-- 2. SMTP / Brevo API 設定 -->
+            <div x-show="!isMock" class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl shadow-lg">
+                <h2 class="text-base font-bold text-white mb-4 flex items-center uppercase tracking-wider font-mono-brand">
+                    <svg class="w-5 h-5 mr-2 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    雲端發信 API 設定
                 </h2>
                 <div class="space-y-3 text-sm">
-                    <div class="grid grid-cols-3 gap-2">
-                        <div class="col-span-2">
-                            <label class="block text-xs font-medium text-slate-600 mb-1">SMTP 主機</label>
-                            <input type="text" x-model="smtp.host" placeholder="smtp.gmail.com" class="w-full px-3 py-2 border border-slate-300 rounded-md">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">連接埠</label>
-                            <input type="number" x-model="smtp.port" placeholder="465" class="w-full px-3 py-2 border border-slate-300 rounded-md">
-                        </div>
+                    <div>
+                        <label class="block text-xs font-medium text-zinc-400 mb-1">寄件者 Email / 帳號</label>
+                        <input type="email" x-model="smtp.user" placeholder="b6d944001@smtp-brevo.com" 
+                            class="w-full px-3 py-2 bg-zinc-950 border border-zinc-700 text-white rounded-md focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">發信人名稱</label>
-                        <input type="text" x-model="smtp.senderName" placeholder="例如: 智能科技業務團隊" class="w-full px-3 py-2 border border-slate-300 rounded-md">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">寄件者 Email (帳號)</label>
-                        <input type="email" x-model="smtp.user" placeholder="your-email@gmail.com" class="w-full px-3 py-2 border border-slate-300 rounded-md">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">應用程式密碼 (Password)</label>
-                        <input type="password" x-model="smtp.pass" placeholder="Gmail 16位數應用程式密碼" class="w-full px-3 py-2 border border-slate-300 rounded-md">
-                        <p class="text-[11px] text-amber-600 mt-1">⚠️ 注意：Gmail 必須使用「應用程式密碼」（非登入密碼），且帳號需開啟雙重驗證並至 Google 帳號安全性設定產生 16 位數應用程式密碼。</p>
+                        <label class="block text-xs font-medium text-zinc-400 mb-1">Brevo API Key (xkeysib-...)</label>
+                        <input type="password" x-model="smtp.pass" placeholder="xkeysib-..." 
+                            class="w-full px-3 py-2 bg-zinc-950 border border-zinc-700 text-white rounded-md focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        <p class="text-[11px] text-zinc-500 mt-1">若已於 Render 設定環境變數，此處可保持空白。</p>
                     </div>
                 </div>
             </div>
@@ -150,50 +166,50 @@
         <div class="lg:col-span-7 space-y-6">
             
             <!-- 信件內容編輯 -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl shadow-lg relative">
+                <h2 class="text-base font-bold text-white mb-4 flex items-center uppercase tracking-wider font-mono-brand">
+                    <svg class="w-5 h-5 mr-2 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     2. 開發信內容編輯版面
                 </h2>
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">信件主旨</label>
-                        <input type="text" x-model="template.subject" placeholder="例如: 尋求與 {{companyName}} 合作AI智能解決方案的機會"
-                            class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
+                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1 font-mono-brand">信件主旨</label>
+                        <input type="text" x-model="template.subject" placeholder="例如: CASA CYCLES 高階碳纖維零組件經銷合作邀約 - {{companyName}}"
+                            class="w-full px-4 py-2.5 bg-zinc-950 border border-zinc-700 text-white rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none text-sm">
                     </div>
 
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">信件內文</label>
-                            <span class="text-xs text-indigo-600">可用變數: <code class="bg-indigo-50 px-1.5 py-0.5 rounded font-mono">{{companyName}}</code>, <code class="bg-indigo-50 px-1.5 py-0.5 rounded font-mono">{{contactName}}</code></span>
+                            <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider font-mono-brand">信件內文</label>
+                            <span class="text-xs text-amber-400">可用變數: <code class="bg-zinc-950 px-1.5 py-0.5 rounded font-mono border border-zinc-800">{{companyName}}</code>, <code class="bg-zinc-950 px-1.5 py-0.5 rounded font-mono border border-zinc-800">{{contactName}}</code></span>
                         </div>
                         <textarea x-model="template.body" rows="8"
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm font-sans leading-relaxed"></textarea>
+                            class="w-full px-4 py-3 bg-zinc-950 border border-zinc-700 text-white rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none text-sm font-sans leading-relaxed"></textarea>
                     </div>
 
                     <!-- 附件上傳區 (圖片 / PDF) -->
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">附加檔案 (支援圖片、PDF)</label>
+                        <label class="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-1 font-mono-brand">單車零件型錄附件 (圖片 / PDF)</label>
                         <div class="flex items-center space-x-3">
-                            <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium px-4 py-2 rounded-lg border border-slate-300 transition flex items-center space-x-2">
-                                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
-                                <span>選擇檔案上傳</span>
+                            <label class="cursor-pointer bg-zinc-800 hover:bg-zinc-700 text-amber-400 text-xs font-medium px-4 py-2.5 rounded-lg border border-zinc-700 transition flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                                <span>選擇產品型錄檔案</span>
                                 <input type="file" @change="handleFileUpload" multiple accept="image/*,application/pdf" class="hidden">
                             </label>
-                            <span class="text-xs text-slate-400">可同時上傳多張圖片或 PDF 簡介</span>
+                            <span class="text-xs text-zinc-500">可上傳車架、輪組型錄 PDF 或產品寫真圖</span>
                         </div>
 
                         <!-- 附件清單預覽 -->
                         <div class="mt-3 space-y-2" x-show="attachments.length > 0">
                             <template x-for="(att, index) in attachments" :key="index">
-                                <div class="flex items-center justify-between bg-slate-50 border border-slate-200 px-3 py-2 rounded-lg text-xs">
+                                <div class="flex items-center justify-between bg-zinc-950 border border-zinc-800 px-3 py-2 rounded-lg text-xs">
                                     <div class="flex items-center space-x-2 truncate">
-                                        <svg class="w-4 h-4 text-indigo-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                        <span class="font-medium text-slate-700 truncate" x-text="att.filename"></span>
-                                        <span class="text-slate-400" x-text="'(' + formatFileSize(att.size) + ')'"></span>
+                                        <svg class="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                        <span class="font-medium text-white truncate" x-text="att.filename"></span>
+                                        <span class="text-zinc-500" x-text="'(' + formatFileSize(att.size) + ')'"></span>
                                     </div>
-                                    <button @click="removeAttachment(index)" class="text-slate-400 hover:text-red-500 p-1">
+                                    <button @click="removeAttachment(index)" class="text-zinc-500 hover:text-red-400 p-1">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                                     </button>
                                 </div>
@@ -204,15 +220,15 @@
             </div>
 
             <!-- 即時預覽區 -->
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl shadow-lg">
                 <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-lg font-bold text-slate-900 flex items-center">
-                        <svg class="w-5 h-5 mr-2 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    <h2 class="text-base font-bold text-white flex items-center uppercase tracking-wider font-mono-brand">
+                        <svg class="w-5 h-5 mr-2 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         3. 即時發信預覽
                     </h2>
-                    <div class="flex items-center space-x-2 text-xs text-slate-500" x-show="recipients.length > 0">
+                    <div class="flex items-center space-x-2 text-xs text-zinc-400" x-show="recipients.length > 0">
                         <span>預覽對象：</span>
-                        <select x-model="previewIndex" class="border border-slate-300 rounded px-2 py-1 text-xs">
+                        <select x-model="previewIndex" class="bg-zinc-950 border border-zinc-700 text-white rounded px-2 py-1 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
                             <template x-for="(r, idx) in recipients" :key="idx">
                                 <option :value="idx" x-text="r.company + ' (' + r.email + ')'"></option>
                             </template>
@@ -220,35 +236,35 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-3">
+                <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4 space-y-3">
                     <template x-if="recipients.length === 0">
-                        <div class="text-center text-slate-400 text-sm py-4">請先新增收件人以預覽替換後的信件內容</div>
+                        <div class="text-center text-zinc-500 text-sm py-4">請先新增收件人以預覽替換後的信件內容</div>
                     </template>
                     <template x-if="recipients.length > 0">
                         <div class="space-y-2">
-                            <div class="border-b border-slate-200 pb-2 text-xs text-slate-600 space-y-1">
-                                <div><span class="font-bold">收件人：</span><span x-text="getPreviewRecipient().email"></span></div>
-                                <div><span class="font-bold">主旨：</span><span class="font-medium text-slate-900" x-text="getPreviewSubject()"></span></div>
+                            <div class="border-b border-zinc-800 pb-2 text-xs text-zinc-400 space-y-1">
+                                <div><span class="font-bold text-zinc-300">收件人：</span><span x-text="getPreviewRecipient().email"></span></div>
+                                <div><span class="font-bold text-zinc-300">主旨：</span><span class="font-medium text-white" x-text="getPreviewSubject()"></span></div>
                                 <div x-show="attachments.length > 0">
-                                    <span class="font-bold">附件：</span>
-                                    <span class="text-indigo-600" x-text="attachments.map(a => a.filename).join(', ')"></span>
+                                    <span class="font-bold text-zinc-300">附件：</span>
+                                    <span class="text-amber-400" x-text="attachments.map(a => a.filename).join(', ')"></span>
                                 </div>
                             </div>
-                            <div class="text-sm text-slate-700 whitespace-pre-wrap font-sans bg-white p-3 rounded border border-slate-200" x-text="getPreviewBody()"></div>
+                            <div class="text-sm text-zinc-300 whitespace-pre-wrap font-sans bg-zinc-900 p-4 rounded border border-zinc-800 leading-relaxed" x-text="getPreviewBody()"></div>
                         </div>
                     </template>
                 </div>
             </div>
 
             <!-- 發送控制按鈕 -->
-            <div class="flex items-center justify-between bg-indigo-50 border border-indigo-100 p-6 rounded-xl">
+            <div class="flex items-center justify-between bg-zinc-900 border border-amber-500/30 p-6 rounded-xl shadow-xl">
                 <div>
-                    <div class="font-bold text-indigo-900">準備就緒？</div>
-                    <div class="text-xs text-indigo-700">將向 <span class="font-bold" x-text="recipients.length"></span> 位客戶發送開發信</div>
+                    <div class="font-bold text-white font-mono-brand tracking-wide">CASA CYCLES 準備就緒</div>
+                    <div class="text-xs text-zinc-400">將向 <span class="font-bold text-amber-400" x-text="recipients.length"></span> 家單車經銷商發送開發信</div>
                 </div>
                 <button @click="sendEmails" :disabled="sending || recipients.length === 0"
-                    class="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white font-bold px-8 py-3 rounded-xl shadow-md transition flex items-center space-x-2">
-                    <svg x-show="sending" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                    class="bg-amber-500 hover:bg-amber-600 disabled:bg-zinc-800 disabled:text-zinc-600 text-black font-bold px-8 py-3.5 rounded-xl shadow-lg transition flex items-center space-x-2 font-mono-brand">
+                    <svg x-show="sending" class="animate-spin -ml-1 mr-3 h-5 w-5 text-black" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -261,33 +277,33 @@
     </main>
 
     <!-- 發送結果 Modal -->
-    <div x-show="showModal" class="fixed inset-0 bg-slate-900 bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-xl">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="text-lg font-bold text-slate-900 flex items-center">
-                    <svg class="w-6 h-6 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+    <div x-show="showModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b border-zinc-800 pb-3">
+                <h3 class="text-lg font-bold text-white flex items-center font-mono-brand">
+                    <svg class="w-6 h-6 mr-2 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     發送結果報告
                 </h3>
-                <button @click="showModal = false" class="text-slate-400 hover:text-slate-600 font-bold text-xl">&times;</button>
+                <button @click="showModal = false" class="text-zinc-400 hover:text-white font-bold text-xl">&times;</button>
             </div>
             
             <div class="max-h-96 overflow-y-auto space-y-2">
                 <template x-for="(res, idx) in sendResults" :key="idx">
                     <div class="p-3 rounded-lg border text-sm flex items-center justify-between"
-                         :class="res.status === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-red-50 border-red-200 text-red-900'">
+                         :class="res.status === 'success' ? 'bg-zinc-950 border-amber-500/30 text-zinc-200' : 'bg-red-950/40 border-red-900/50 text-red-200'">
                         <div>
-                            <div class="font-bold" x-text="res.company + ' (' + res.email + ')'"></div>
+                            <div class="font-bold text-white" x-text="res.company + ' (' + res.email + ')'"></div>
                             <div class="text-xs opacity-75" x-text="res.message"></div>
                         </div>
-                        <span class="text-xs px-2 py-1 rounded font-medium"
-                              :class="res.status === 'success' ? 'bg-emerald-200 text-emerald-800' : 'bg-red-200 text-red-800'"
+                        <span class="text-xs px-2.5 py-1 rounded font-medium"
+                              :class="res.status === 'success' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40' : 'bg-red-500/20 text-red-400 border border-red-500/40'"
                               x-text="res.status === 'success' ? '成功' : '失敗'"></span>
                     </div>
                 </template>
             </div>
 
             <div class="flex justify-end pt-2">
-                <button @click="showModal = false" class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-2 rounded-lg text-sm font-medium">
+                <button @click="showModal = false" class="bg-amber-500 hover:bg-amber-600 text-black px-6 py-2 rounded-lg text-sm font-semibold font-mono-brand">
                     關閉
                 </button>
             </div>
@@ -295,38 +311,38 @@
     </div>
 
     <!-- 頁尾 -->
-    <footer class="mt-auto py-6 text-center text-xs text-slate-400 border-t border-slate-200">
-        B2B 開發信智能群發系統 &copy; 2026 | 支援動態變數、圖片/PDF 附件與多重收件人批次發送
+    <footer class="mt-auto py-6 text-center text-xs text-zinc-500 border-t border-zinc-800 font-mono-brand">
+        CASA CYCLES &copy; 2026 | B2B Carbon & High-End Bicycle Components Outreach System
     </footer>
 
     <!-- Alpine.js 邏輯 -->
     <script>
         function emailApp() {
             return {
-                isMock: true,
+                isMock: false,
                 recipients: [
-                    { company: '台灣台積電', name: '張協理', email: 'tsmc_contact@example.com' },
-                    { company: '聯發科技', name: '李經理', email: 'mediatek_sales@example.com' },
-                    { company: '鴻海精密', name: '王副總', email: 'foxconn_biz@example.com' }
+                    { company: '捷安特車業 (GIANT)', name: '林經理', email: 'partner@giant.com.tw' },
+                    { company: '美利達工業 (MERIDA)', name: '王協理', email: 'biz@merida.com.tw' },
+                    { company: '華球單車 (Velo)', name: '張總監', email: 'sales@velo-ce.com' }
                 ],
                 newRecipient: { company: '', name: '', email: '' },
                 template: {
-                    subject: '尋求與 {{companyName}} 深度合作 AI 智能研發解決方案',
+                    subject: 'CASA CYCLES 高階碳纖維零組件與客製車架經銷合作邀約 - {{companyName}}',
                     body: `Hello, {{companyName}} team {{contactName}}:
 
-我們是智能科技解決方案團隊。注意到貴公司在業界的卓越成就與持續創新。
+我們是 CASA CYCLES 高階單車零組件與碳纖維科技研發團隊。注意到貴公司在台灣自行車市場的卓越通路與領導地位。
 
-我們近期專注於協助 {{companyName}} 優化自動化開發與數位轉型流程，相信能為貴團隊帶來顯著的效率提升。
+我們近期推出全新碳纖維輪組與極致輕量化車架系列，專為頂級單車愛好者設計，並擁有極具競爭力的B2B經銷合作方案。
 
-請參考附檔之詳細產品簡介與合作方案。不知本週是否有 10-15 分鐘的時間，可以與您簡單交流分享？
+請參考附檔之 2026 最新產品型錄與樣品測試邀請。不知本週是否有 10-15 分鐘的時間，可以與您進一步探討合作可能？
 
-祝 商祺
-智能科技團隊`
+Best regards,
+CASA CYCLES Business Development Team`
                 },
                 smtp: {
                     host: 'smtp-relay.brevo.com',
                     port: 587,
-                    senderName: '智能科技業務團隊',
+                    senderName: 'CASA CYCLES 業務團隊',
                     user: '',
                     pass: ''
                 },
@@ -351,10 +367,10 @@
 
                 loadSampleData() {
                     this.recipients = [
-                        { company: '台灣台積電', name: '張協理', email: 'tsmc_contact@example.com' },
-                        { company: '聯發科技', name: '李經理', email: 'mediatek_sales@example.com' },
-                        { company: '鴻海精密', name: '王副總', email: 'foxconn_biz@example.com' },
-                        { company: '中華電信', name: '陳處長', email: 'cht_biz@example.com' }
+                        { company: '捷安特車業 (GIANT)', name: '林經理', email: 'partner@giant.com.tw' },
+                        { company: '美利達工業 (MERIDA)', name: '王協理', email: 'biz@merida.com.tw' },
+                        { company: '華球單車 (Velo)', name: '張總監', email: 'sales@velo-ce.com' },
+                        { company: '達陸單車', name: '陳總經理', email: 'contact@darlu.com.tw' }
                     ];
                 },
 
@@ -369,12 +385,11 @@
                             this.attachments.push({
                                 filename: file.name,
                                 size: file.size,
-                                data: e.target.result // Base64 data URL
+                    data: e.target.result
                             });
                         };
                         reader.readAsDataURL(file);
                     }
-                    // reset input
                     event.target.value = '';
                 },
 
