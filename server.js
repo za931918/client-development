@@ -62,13 +62,13 @@ app.post('/api/send-emails', async (req, res) => {
     try {
         const config = smtpConfig || {};
         const port = Number(config.port) || 587;
-        const smtpUser = config.user || process.env.SMTP_USER;
-        const smtpPass = config.pass || process.env.SMTP_PASS;
-        const smtpHost = config.host || 'smtp-relay.brevo.com';
-        const senderName = config.senderName || '業務開發團隊';
+        const smtpUser = (config.user && config.user.trim() !== '') ? config.user.trim() : process.env.SMTP_USER;
+        const smtpPass = (config.pass && config.pass.trim() !== '') ? config.pass.trim() : process.env.SMTP_PASS;
+        const smtpHost = (config.host && config.host.trim() !== '') ? config.host.trim() : 'smtp-relay.brevo.com';
+        const senderName = (config.senderName && config.senderName.trim() !== '') ? config.senderName.trim() : '業務開發團隊';
 
         if (!smtpUser || !smtpPass) {
-            return res.status(400).json({ success: false, message: '請填寫 SMTP 帳號與密碼（或於 Render 設定環境變數）' });
+            return res.status(400).json({ success: false, message: '請填寫 SMTP 帳號與密碼（或於 Render 設定環境變數 SMTP_USER 與 SMTP_PASS）' });
         }
 
         const transporter = nodemailer.createTransport({
