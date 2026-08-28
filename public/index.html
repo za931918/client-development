@@ -51,7 +51,7 @@
             <div class="flex items-center space-x-4">
                 <span class="text-xs bg-zinc-800 border border-zinc-700 px-3 py-1.5 rounded-full flex items-center text-zinc-300">
                     <span class="w-2 h-2 rounded-full mr-2 shadow-sm" :class="isMock ? 'bg-amber-400' : 'bg-emerald-400'"></span>
-                    <span x-text="isMock ? '模擬測試模式' : 'Brevo 雲端發信模式'"></span>
+                    <span x-text="isMock ? '模擬測試模式' : 'SMTP 發信模式'"></span>
                 </span>
                 <button @click="isMock = !isMock" class="text-xs bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-amber-500/30 px-3 py-1.5 rounded transition font-medium">
                     切換模式
